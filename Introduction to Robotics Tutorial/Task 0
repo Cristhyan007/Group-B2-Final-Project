@@ -1,1 +1,26 @@
+# Task 0: Epson RC Simulation
+
+## Overview
+
+**Task 0** involves simulating the robotic operations of Task 1 (Pick-and-Place) and Task 2 (Stack-Up) using the Epson RC simulator. 
+This step allows us to test and refine the logic, movements, and task sequences in a controlled virtual environment before real-world implementation.
+
+## Simulated Tasks
+
+- **Pick-and-Place:** Simulates moving three tokens and three blocks from the Feeder to the Fixture and Tray in an optimized sequence.
+
+
+
+- **Stack-Up:** Simulates stacking six tokens and six blocks alternately with precision.
+
+
+
+## Purpose
+
+- Validate and optimize programming logic.
+- Analyze performance metrics such as precision and timing.
+- Prepare for seamless execution on the physical Epson robot.
+
+The simulation serves as a foundation for ensuring success in real-world applications of Task 1 and Task 2.
+
 
