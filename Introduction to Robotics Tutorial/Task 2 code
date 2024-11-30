@@ -1,1 +1,314 @@
+Function main
+    Call task2io
+TOP:
+    Call task2
+    GoTo TOP
+Fend
+
+' Funcii??n secundaria: task2io
+' Controla la ejecucii??n del task basado en el estado de los botones.
+Function task2io
+    Motor On            ' Enciende el motor
+    Power High          ' Establece la potencia a alta
+    Speed 50            ' Establece la velocidad a 30
+    Accel 50, 50        ' Establece la aceleracii??n a 30 en ambos ejes
+    SpeedS 500          ' Establece la velocidad secundaria a 500
+    AccelS 5000         ' Establece la aceleracii??n secundaria a 5000
+  
+    ' Bucle principal: se ejecuta continuamente mientras el programa este en ejecucion.
+    Do While 1
+        ' Espera hasta que el boton verde (Sw(0)) sea presionado para iniciar el task.
+        Wait Sw(0) = On
+
+        ' Ejecuta el task principal.
+        Xqt task2
+
+        ' Controla las acciones mientras el boton verde este activo.
+        Do While Sw(0) = On
+            ' Boton Rojo (Sw(4)): Detiene el task.
+            If Sw(4) = On Then
+                Halt task2
+            EndIf
+
+            ' Boton Azul (Sw(6)): Reanuda el task si fue detenido.
+            If Sw(6) = On Then
+                Resume task2
+            EndIf
+
+            ' Boton Anaranjado (Sw(3)): Resetea el robot a Home Position.
+            If Sw(3) = On Then
+                Halt task2       ' Detiene el task antes de resetear.
+                Off 8
+                Home             ' Manda al robot a la posicii??n inicial.
+                Wait 1           ' Pausa un momento para evitar conflictos.
+            EndIf
+
+            ' Boton Blanco (Sw(2)): Manda al robot al origen del task.
+            If Sw(2) = On Then
+                Halt task2       ' Detiene el task antes de regresar.
+               Go P1 +Z(50)   ' Regresa al punto de origen del task.
+                Wait 1           ' Pausa un momento.
+            EndIf
+           Loop
+         ' Finaliza completamente el task cuando Sw(0) esta desactivado.
+        Quit task2
+
+        ' Apaga el interruptor de inicio para evitar reactivaciones accidentales.
+        Off 0
+    Loop
+Fend
+' Funcii??n secundaria: task2
+' Se encarga de la manipulacion y apilamiento de los objetos.
+Function task2
+'squere p1
+'circule p2
+'Staking point p0
+
+	Go P10
+'collect the square p1'
+   Go P1 +Z(25)
+   Go P1
+  On 8
+   Go P1 +Z(25)
+  
+  ' go  to the staking point p0'
+  Go P0 +Z(120)
+   Go P0
+  Off 8
+   Go P0 +Z(120)
+  
+  'collect the circule p2'
+   Go P2 +Z(25)
+   Go P2
+  On 8
+   Go P2 +Z(25)
+  
+  ' go  to the staking point p0'
+   Go P0 +Z(120)
+   Go P0 +Z(6)
+  Off 8
+   Go P0 +Z(120)
+  
+  'collect the square p1'
+   Go P1 +Z(25)
+   Go P1 -Z(6)
+  On 8
+   Go P1 +Z(25)
+  
+  ' go  to the staking point p0'
+   Go P0 +Z(120)
+   Go P0 +Z(12)
+  Off 8
+   Go P0 +Z(120)
+  
+  'collect the circule p2'
+   Go P2 +Z(25)
+   Go P2 -Z(6)
+  On 8
+   Go P2 +Z(25)
+  
+  ' go  to the staking point p0'
+   Go P0 +Z(120)
+   Go P0 +Z(18)
+  Off 8
+   Go P0 +Z(120)
+  
+  'collect the square p1'
+   Go P1 +Z(25)
+   Go P1 -Z(12)
+  On 8
+   Go P1 +Z(25)
+  
+  ' go  to the staking point p0'
+   Go P0 +Z(120)
+   Go P0 +Z(24)
+  Off 8
+   Go P0 +Z(120)
+  
+   'collect the circule p2'
+   Go P2 +Z(25)
+   Go P2 -Z(12)
+  On 8
+   Go P2 +Z(25)
+
+   ' go  to the staking point p0'
+   Go P0 +Z(120)
+   Go P0 +Z(30)
+  Off 8
+   Go P0 +Z(120)
+  
+   'collect the square p1'
+   Go P1 +Z(25)
+   Go P1 -Z(18)
+  On 8
+   Go P1 +Z(25)
+  
+  ' go  to the staking point p0'
+   Go P0 +Z(120)
+   Go P0 +Z(36)
+  Off 8
+   Go P0 +Z(120)
+  
+   'collect the circule p2'
+   Go P2 +Z(25)
+   Go P2 -Z(18)
+  On 8
+   Go P2 +Z(25)
+  
+   ' go  to the staking point p0'
+   Go P0 +Z(120)
+   Go P0 +Z(42)
+  Off 8
+   Go P0 +Z(120)
+  
+  'collect the square p1'
+   Go P1 +Z(25)
+   Go P1 -Z(24)
+  On 8
+   Go P1 +Z(25)
+  
+  ' go  to the staking point p0'
+   Go P0 +Z(120)
+   Go P0 +Z(48)
+  Off 8
+   Go P0 +Z(120)
+  
+  'collect the circule p2'
+   Go P2 +Z(25)
+   Go P2 -Z(24)
+  On 8
+   Go P2 +Z(25)
+  
+   ' go  to the staking point p0'
+   Go P0 +Z(120)
+   Go P0 +Z(54)
+  Off 8
+   Go P0 +Z(120)
+  
+   'collect the square p1'
+   Go P1 +Z(25)
+   Go P1 -Z(30)
+  On 8
+   Go P1 +Z(25)
+  
+  ' go  to the staking point p0'
+   Go P0 +Z(120)
+   Go P0 +Z(60)
+  Off 8
+   Go P0 +Z(120)
+  
+  'collect the circule p2'
+   Go P2 +Z(25)
+   Go P2 -Z(30)
+  On 8
+   Go P2 +Z(25)
+  
+  ' go  to the staking point p0'
+   Go P0 +Z(120)
+   Go P0 +Z(66)
+  Off 8
+   Go P0 +Z(120)
+  
+   'collect the square p1'
+   Go P1 +Z(25)
+   Go P1 -Z(36)
+  On 8
+   Go P1 +Z(25)
+  
+  ' go  to the staking point p0'
+   Go P0 +Z(120)
+   Go P0 +Z(72)
+  Off 8
+   Go P0 +Z(120)
+  
+   'collect the circule p2'
+   Go P2 +Z(25)
+   Go P2 -Z(36)
+  On 8
+   Go P2 +Z(25)
+  
+  ' go  to the staking point p0'
+   Go P0 +Z(120)
+   Go P0 +Z(78)
+  Off 8
+   Go P0 +Z(120)
+  
+   'collect the square p1'
+   Go P1 +Z(25)
+   Go P1 -Z(42)
+  On 8
+   Go P1 +Z(25)
+  
+   ' go  to the staking point p0'
+   Go P0 +Z(120)
+   Go P0 +Z(84)
+  Off 8
+   Go P0 +Z(120)
+  
+  'collect the circule p2'
+   Go P2 +Z(25)
+   Go P2 -Z(42)
+  On 8
+   Go P2 +Z(25)
+  
+  
+   ' go  to the staking point p0'
+   Go P0 +Z(120)
+   Go P0 +Z(90)
+  Off 8
+   Go P0 +Z(120)
+  
+   'collect the square p1'
+   Go P1 +Z(25)
+   Go P1 -Z(48)
+  On 8
+   Go P1 +Z(25)
+  
+  ' go  to the staking point p0'
+   Go P0 +Z(120)
+   Go P0 +Z(96)
+  Off 8
+   Go P0 +Z(120)
+  
+   'collect the circule p2'
+   Go P2 +Z(25)
+   Go P2 -Z(48)
+  On 8
+   Go P2 +Z(25)
+  
+  ' go  to the staking point p0'
+   Go P0 +Z(130)
+   Go P0 +Z(102)
+  Off 8
+   Go P0 +Z(130)
+  
+   'collect the square p1'
+   Go P1 +Z(25)
+   Go P1 -Z(54)
+  On 8
+   Go P1 +Z(25)
+  
+  ' go  to the staking point p0'
+   Go P0 +Z(130)
+   Go P0 +Z(108)
+  Off 8
+   Go P0 +Z(130)
+  
+ 
+   'collect the circule p2'
+   Go P2 +Z(25)
+   Go P2 -Z(54)
+  On 8
+   Go P2 +Z(25)
+  
+   ' go  to the staking point p0'
+   Go P0 +Z(130)
+   Go P0 +Z(114)
+  Off 8
+   Go P0 +Z(130)
+    ' Regresar a la posicii??n inicial
+    Go P10
+Fend
+
+
 
