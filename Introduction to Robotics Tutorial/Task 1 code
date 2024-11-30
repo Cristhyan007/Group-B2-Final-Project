@@ -1,1 +1,267 @@
+Function main
+    Call task1io
+TOP:
+    Call task1
+    GoTo TOP
+Fend
+
+' Funcii??n secundaria: task1io
+' Controla la ejecucii??n del task basado en el estado de los botones.
+Function task1io
+    Motor On            ' Enciende el motor
+    Power High          ' Establece la potencia a alta
+    Speed 30            ' Establece la velocidad a 30
+    Accel 30, 30        ' Establece la aceleracii??n a 30 en ambos ejes
+    SpeedS 500          ' Establece la velocidad secundaria a 500
+    AccelS 5000         ' Establece la aceleracii??n secundaria a 5000
+             
+    ' Bucle principal: se ejecuta continuamente mientras el programa este en ejecucii??n.
+    Do While 1
+        ' Espera hasta que el boton verde (Sw(0)) sea presionado para iniciar el task.
+        Wait Sw(0) = On
+
+        ' Ejecuta el task principal.
+        Xqt task1
+
+        ' Controla las acciones mientras el boton verde este activo.
+        Do While Sw(0) = On
+            ' Boton Rojo (Sw(4)): Detiene el task.
+            If Sw(4) = On Then
+                Halt task1
+        
+            EndIf
+
+            ' Boton Azul (Sw(6)): Reanuda el task si fue detenido.
+            If Sw(6) = On Then
+                Resume task1
+            EndIf
+
+            ' Boton Anaranjado (Sw(3)): Resetea el robot a Home Position.
+            If Sw(3) = On Then
+                Halt task1       ' Detiene el task antes de resetear.
+               Home
+               Off 8
+          ' Manda al robot a la posicii??n inicial.
+                Wait 1           ' Pausa un momento para evitar conflictos.
+            EndIf
+
+            ' Boton Blanco (Sw(2)): Manda al robot al origen del task.
+            If Sw(2) = On Then
+                Halt task1       ' Detiene el task antes de regresar.
+               Go P10
+  ' Regresa al punto de origen del task.
+                Wait 1           ' Pausa un momento.
+            EndIf
+		Loop
+  		' Finaliza completamente el task cuando Sw(0) esta desactivado.
+        Quit task1
+
+        ' Apaga el interruptor de inicio para evitar reactivaciones accidentales.
+        Off 0
+    Loop
+Fend
+' Funcion secundaria: task1
+' Se encarga de la manipulacion y apilamiento de los objetos.
+Function task1
+	'FINAL CODE TASK 1'
+'p0 square /2
+'p1 circule /2
+'p3/2 aligne for square
+'p4/2 align for circle 
+'p2/1 matrix point 
+
+
+'go to the inicial point p10/0
+Go P10
+
+
+'pick up the square  go p0 +z(25)/2
+ Go P0 +Z(25) /2
+ Go P0 /2
+ On 8
+ Go P0 +Z(25) /2
+ 
+ 
+'go to aligned point for square p3 /2
+ Go P3 +Z(25) /2
+ Go P3 -Y(10) /2
+ Go P3 +Y(1) +X(1) /2
+ Off 8
+ Go P3 +Z(10) -Y(5) /2
+ Go P3 +Y(1) +X(1) /2
+ On 8
+ Go P3 +Z(25) /2
+ 
+ 
+ 
+ 'go to the matrix p2/1
+ Go P2 +Z(25) /1
+ 
+ Go P2 +Z(2) /1
+ Go P2 +Z(10) /1
+ 
+ Go P2 /1
+ Wait (0.5)
+ Off 8
+ Go P2 +Z(25) /1
+ 
+ 
+ 
+ 
+ 'pick up the second square p0/2
+  Go P0 +Z(25) /2
+ Go P0 /2 -Z(6)
+ On 8
+ Go P0 +Z(25) /2
+ 
+ 
+'go to aligned point for square p3 /2
+ Go P3 +Z(25) /2
+ Go P3 -Y(10) /2
+ Go P3 +Y(1) +X(1) /2
+ Off 8
+ Go P3 +Z(10) -Y(5) /2
+ Go P3 +Y(1) +X(1) /2
+ On 8
+ Go P3 +Z(25) /2
+ 
+ 
+ 'go to the matrix p2 +y(30)/1
+ Go P2 +Z(25) +Y(30) /1
+ 
+ Go P2 +Z(2) +Y(30) /1
+ Go P2 +Z(10) +Y(30) /1
+ 
+ Go P2 +Y(30) /1
+  Wait (0.5)
+ Off 8
+ Go P2 +Z(25) +Y(30) /1
+ 
+ 
+ 'pick up the last square
+  Go P0 +Z(25) /2
+ Go P0 /2 -Z(12)
+ On 8
+ Go P0 +Z(25) /2
+ 
+ 
+'go to aligned point for square p3 /2
+ Go P3 +Z(25) /2
+ Go P3 -Y(10) /2
+ Go P3 +Y(1) +X(1) /2
+ Off 8
+ Go P3 +Z(10) -Y(5) /2
+ Go P3 +Y(1) +X(1) /2
+ On 8
+ Go P3 +Z(25) /2
+ 
+  'go to the matrix p2 +y(60)/1
+ Go P2 +Z(25) +Y(60) /1
+ 
+ Go P2 +Z(2) +Y(60) /1
+ Go P2 +Z(10) +Y(60) /1
+ 
+ 
+ Go P2 +Y(60) /1
+ Off 8
+  Wait (0.5)
+ Go P2 +Z(25) +Y(60) /1
+ 
+ 
+ 
+ ' pick up the circule p1/2
+  Go P1 +Z(25) /2
+    Go P1 /2
+    On 8
+    Go P1 +Z(25) /2
+   
+ 
+ 'go to alined point for circule p4/2
+ Go P4 +Z(25) /2
+ Go P4 -Y(10) /2
+ Go P4 +Y(1) /2
+ Off 8
+ Go P4 +Z(10) -Y(5) /2
+Go P4 +Y(1) /2
+ On 8
+ Go P4 +Z(25) /2
+ 
+ 
+ 
+ 'go to the matrix p2 +x(30)/1
+ Go P2 +Z(25) +X(30) /1
+ 
+ Go P2 +Z(2) +X(30) /1
+ Go P2 +Z(10) +X(30) /1
+ 
+ Go P2 +X(30) /1
+ Off 8
+  Wait (0.5)
+ Go P2 +Z(25) +X(30) /1
+ 
+ 
+ ' pick up the second circule p1/2
+  Go P1 +Z(25) /2
+    Go P1 /2 -Z(6)
+    On 8
+    Go P1 +Z(25) /2
+ 
+ 
+'go to alined point for circule p4/2
+Go P4 +Z(25) /2
+ Go P4 -Y(10) /2
+ Go P4 +Y(1) /2
+ Off 8
+ Go P4 +Z(10) -Y(5) /2
+Go P4 +Y(1) /2
+ On 8
+ Go P4 +Z(25) /2
+ 
+ 
+ 
+  'go to the matrix p2 +x(30)+y(30)/1
+ Go P2 +Z(25) +X(30) +Y(30) /1
+ 
+ Go P2 +Z(2) +X(30) +Y(30) /1
+ Go P2 +Z(10) +X(30) +Y(30) /1
+ 
+ Go P2 +X(30) +Y(30) /1
+ Off 8
+   Wait (0.5)
+ Go P2 +Z(25) +X(30) +Y(30) /1
+ 
+ 
+ 
+ ' pick up the second the last circule p1/2
+  Go P1 +Z(25) /2
+    Go P1 /2 -Z(12)
+    On 8
+    Go P1 +Z(25) /2
+
+ 
+ 'go to alined point for circule p4/2
+ Go P4 +Z(25) /2
+ Go P4 -Y(10) /2
+ Go P4 +Y(1) /2
+ Off 8
+ Go P4 +Z(10) -Y(5) /2
+Go P4 +Y(1) /2
+ On 8
+ Go P4 +Z(25) /2
+ 
+  'go to the matrix p2 +x(30)+y(60)/1
+ Go P2 +Z(25) +X(30) +Y(60) /1
+ 
+ Go P2 +Z(2) +X(30) +Y(60) /1
+ Go P2 +Z(10) +X(30) +Y(60) /1
+ 
+ Go P2 +X(30) +Y(60) /1
+ Off 8
+ Wait (0.5)
+ Go P2 +Z(25) +X(30) +Y(60) /1
+ 
+ 
+ Go P10
+
+Fend
 
