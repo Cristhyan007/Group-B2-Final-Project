@@ -5,63 +5,63 @@ TOP:
     GoTo TOP
 Fend
 
-' Funcii??n secundaria: task1io
-' Controla la ejecucii??n del task basado en el estado de los botones.
+' Secondary function: task1io
+' Controls the execution of the task based on the button states.
 Function task1io
-    Motor On            ' Enciende el motor
-    Power High          ' Establece la potencia a alta
-    Speed 30            ' Establece la velocidad a 30
-    Accel 30, 30        ' Establece la aceleracii??n a 30 en ambos ejes
-    SpeedS 500          ' Establece la velocidad secundaria a 500
-    AccelS 5000         ' Establece la aceleracii??n secundaria a 5000
+    Motor On            ' Turns on the motor
+    Power High          ' Sets power to high
+    Speed 30            ' Sets speed to 30
+    Accel 30, 30        ' Sets acceleration to 30 on both axes
+    SpeedS 500          ' Sets secondary speed to 500
+    AccelS 5000         ' Sets secondary acceleration to 5000
              
-    ' Bucle principal: se ejecuta continuamente mientras el programa este en ejecucii??n.
+    ' Main loop: runs continuously while the program is running.
     Do While 1
-        ' Espera hasta que el boton verde (Sw(0)) sea presionado para iniciar el task.
+        ' Waits until the green button (Sw(0)) is pressed to start the task.
         Wait Sw(0) = On
 
-        ' Ejecuta el task principal.
+        ' Executes the main task.
         Xqt task1
 
-        ' Controla las acciones mientras el boton verde este activo.
+        ' Controls actions while the green button is active.
         Do While Sw(0) = On
-            ' Boton Rojo (Sw(4)): Detiene el task.
+            ' Red button (Sw(4)): Stops the task.
             If Sw(4) = On Then
                 Halt task1
         
             EndIf
 
-            ' Boton Azul (Sw(6)): Reanuda el task si fue detenido.
+            ' Blue button (Sw(6)): Resumes the task if it was stopped.
             If Sw(6) = On Then
                 Resume task1
             EndIf
 
-            ' Boton Anaranjado (Sw(3)): Resetea el robot a Home Position.
+            ' Orange button (Sw(3)): Resets the robot to Home Position.
             If Sw(3) = On Then
-                Halt task1       ' Detiene el task antes de resetear.
+                Halt task1       ' Stops the task before resetting.
                Home
                Off 8
-          ' Manda al robot a la posicii??n inicial.
-                Wait 1           ' Pausa un momento para evitar conflictos.
+              ' Sends the robot to the initial position.
+                Wait 1           ' Pauses for a moment to avoid conflicts.
             EndIf
 
-            ' Boton Blanco (Sw(2)): Manda al robot al origen del task.
+            ' White button (Sw(2)): Sends the robot to the origin of the task.
             If Sw(2) = On Then
-                Halt task1       ' Detiene el task antes de regresar.
+                Halt task1       ' Stops the task before returning.
                Go P10
-  ' Regresa al punto de origen del task.
-                Wait 1           ' Pausa un momento.
+  ' Returns to the origin of the task.
+                Wait 1           ' Pauses for a moment.
             EndIf
-		Loop
-  		' Finaliza completamente el task cuando Sw(0) esta desactivado.
+        Loop
+        ' Completely ends the task when Sw(0) is deactivated.
         Quit task1
 
-        ' Apaga el interruptor de inicio para evitar reactivaciones accidentales.
+        ' Turns off the start switch to avoid accidental reactivations.
         Off 0
     Loop
 Fend
-' Funcion secundaria: task1
-' Se encarga de la manipulacion y apilamiento de los objetos.
+' Secondary function: task1
+' Handles the manipulation and stacking of objects.
 Function task1
 	'FINAL CODE TASK 1'
 'p0 square /2
@@ -185,7 +185,6 @@ Go P10
 Go P4 +Y(1) /2
  On 8
  Go P4 +Z(25) /2
- 
  
  
  'go to the matrix p2 +x(30)/1
