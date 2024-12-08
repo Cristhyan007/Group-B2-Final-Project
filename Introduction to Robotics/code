@@ -1,0 +1,98 @@
+clc;
+clear;
+
+% Define link lengths
+link1 = 0;
+link2 = 20;
+link3 = 16;
+link4 = 0;
+link5 = 0;
+link6 = 0;
+link7 = 4;
+
+% Define robot links using standard DH parameters: [θ, d, a, α, joint type]
+L(1) = Link([0, 0, link1, -pi/2, 0]);
+L(2) = Link([0, 0, link2, 0, 0]);      
+L(3) = Link([0, 0, link3, 0, 0]);
+L(4) = Link([0, 0, link4, -pi/2, 0]);      
+L(5) = Link([0, 0, link5, 0, 1]);       % prismatic
+L(6) = Link([0, 0, link6, 0, 0]);
+L(7) = Link([0, 0, link7, 0, 0]);
+
+% Define the robot model
+robot = SerialLink(L, 'name', 'Manipulator');
+
+% Define base rotation angles
+thetaX = pi/2;  % base rotation about X-axis
+thetaY = 0; 
+thetaZ = -pi/2;  % base rotation about Z-axis
+
+% Define the combined transformation (rotate about Z then X)
+Rx = trotx(thetaX); % Rotation about X-axis
+Ry = troty(thetaY);
+Rz = trotz(thetaZ); % Rotation about Z-axis
+T_base = Rz * Rx * Ry;  % Combined transformation matrix
+
+% Apply the base transformation to the robot
+robot.base = T_base;
+
+% Workspace boundaries [x_min, x_max, y_min, y_max, z_min, z_max]
+workspace = [-50, 50, -40, 50, -30, 40];
+plot_options = {'workspace', workspace, 'view', [30, 30]};
+
+% Initial home position
+q_initial = [0, -pi/2, pi/2, -pi/2, 0, 0, -pi/2]; % [Joint 1, Joint 2, Prismatic Joint, Joint 4]
+
+% Define motion sequences
+motions = [
+    0, -pi/2, pi/2,-pi/2, 0, 0, -pi/2;       
+    0, -pi/2, 0, -pi/2, 0, 0, 0;
+    0, -pi/2, 0, -pi/2, 8, 0, 0;
+    0, -pi/2, 0, -pi/2, 0, 0, 0;
+    0, -pi/2, 0, -pi/2, 0, 0, pi/2;
+    0, -pi/2, pi/2, -pi/2, 0, 0, pi/2;
+    -pi/2, -pi/2, pi/2, -pi/2, 0, 0, pi/2;
+    -pi/2, -pi/2, pi/2, -pi/2, 8, 0, pi/2;
+    -pi/2, -pi/2, pi/2, -pi/2, 0, 0, pi/2;
+    0, -pi/2, pi/2, -pi/2, 0, 0, 0;
+];
+
+% Interpolation Parameters
+num_steps = 9; % Number of intermediate steps between motions
+motions_interpolated = []; % To store interpolated motions
+
+% Generate interpolated joint values considering velocity
+for i = 1:size(motions, 1)-1
+    q_start = motions(i, :);       % Start configuration
+    q_end = motions(i+1, :);       % End configuration
+    
+    % Calculate the time required to move each joint based on its velocity limit
+    joint_times = abs(q_end - q_start) ./ joint_velocity_limits; % Time for each joint
+    
+    % Find the maximum time to move for any joint (the slowest joint)
+    max_time = max(joint_times);
+    
+    % Calculate the number of steps based on time (duration divided by desired step time)
+    time_steps = linspace(0, max_time, num_steps);
+    
+    % Interpolate each joint position over time
+    q_interp = zeros(num_steps, size(motions, 2)); % Preallocate for efficiency
+    for j = 1:size(motions, 2)
+        q_interp(:, j) = linspace(q_start(j), q_end(j), num_steps); % Interpolate each joint
+    end
+    
+    motions_interpolated = [motions_interpolated; q_interp]; % Append interpolated motions
+end
+
+% Visualize the interpolated motion
+figure;
+robot.plot(q_initial, 'workspace', workspace, 'linkcolor', [1, 0, 0], ...
+           'basecolor', [0, 0, 0], 'jointcolor', [0.75, 0.75, 0.75]);
+title('Robot Movements with Velocity Constraints');
+hold on;
+
+for i = 1:size(motions_interpolated, 1)
+    q = motions_interpolated(i, :); % Get interpolated joint configuration
+    robot.plot(q, plot_options{:}); % Visualize the configuration
+    pause(0.01); % Adjust for smoother animation
+end
