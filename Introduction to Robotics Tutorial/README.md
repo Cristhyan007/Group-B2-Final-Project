@@ -25,7 +25,7 @@ In this task, the robot demonstrates its precision by stacking six tokens and si
 
 ### 3. **Integration**
 
-*Content coming soon...*
+[Watch it in action](https://www.youtube.com/watch?v=lpBX6hosvSk)
 
 ## Our Approach 🧠
 
