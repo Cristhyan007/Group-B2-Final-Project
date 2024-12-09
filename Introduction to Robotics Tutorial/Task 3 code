@@ -1,1 +1,318 @@
+Function main
+    Call task3io
+TOP:
+    Call task3
+    GoTo TOP
+Fend
+
+' Secondary function: task3io
+' Controls the execution of the task based on the button states.
+Function task3io
+    Motor On            ' Turns on the motor
+    Power High          ' Sets power to high
+    Speed 30            ' Sets speed to 30
+    Accel 30, 30        ' Sets acceleration to 30 on both axes
+    SpeedS 500          ' Sets secondary speed to 500
+    AccelS 5000         ' Sets secondary acceleration to 5000
+             
+    ' Main loop: runs continuously while the program is running.
+    Do While 1
+        Wait Sw(0) = On
+
+        ' Start the task3 function
+        Xqt task3
+
+        ' Monitor button states during task execution
+        Do While Sw(0) = On
+            If Sw(4) = On Then Halt task3
+            If Sw(6) = On Then Resume task3
+            If Sw(3) = On Then
+                Halt task3
+                Home
+                Wait 1
+            EndIf
+            If Sw(2) = On Then
+                Halt task3
+                Go P10
+                Wait 1
+            EndIf
+        Loop
+
+        ' Quit the task3 function when button 0 is released
+        Quit task3
+        Off 0
+    Loop
+Fend
+
+'Inicial p10
+
+'first square p0  
+'Second square p4 
+' Last square p5
+' Firs Circule P1
+' Second Circule P6
+' Last Circule P7
+
+' alignment point p3
+'go to the matrix  p2/1 
+' safe point p11/1
+
+ Function task3
+
+	Motor On
+    Power High
+    Speed 30
+    Accel 30, 30
+    SpeedS 500
+    AccelS 5000
+
+'inicial 
+Go P10
+Off 11
+
+'first square p0  
+Go P0 +Z(20)
+Go P0
+On 11
+Go P0 +Z(20)
+
+
+'  alignment point p3
+Go P3 +Z(30) -X(5)
+Go P3 -X(10)
+Off 11
+Go P3 +Z(30) -X(10)
+On 10 'impulsor 
+Wait (0.5)
+Off 10
+Wait (0.5)
+Go P3 +Z(30)
+Go P3
+On 11
+Go P3 +Z(30) -X(5)
+
+
+' punto seguro antes de acercarce al matrix p11 /1
+Go P11 /1
+
+
+' go to the matrix for square  p2/1 
+ Go P2 +Z(25) /1
+ Go P2 /1
+ Wait (0.5)
+ Off 11
+ Go P2 +Z(25) /1
+
+
+' punto seguro despues de acercarse  al matrix p11 /1
+Go P11 /1
+
+
+
+
+'Second square p4 
+Go P4 +Z(20)
+Go P4
+On 11
+Go P4 +Z(20)
+
+
+
+'  alignment point p3
+Go P3 +Z(30) -X(5)
+Go P3 -X(10)
+Off 11
+Go P3 +Z(30) -X(10)
+On 10 'impulsor 
+Wait (0.5)
+Off 10
+Wait (0.5)
+Go P3 +Z(30)
+Go P3
+On 11
+Go P3 +Z(30) -X(5)
+
+
+
+
+' punto seguro antes de acercarce al matrix p11 
+Go P11
+
+
+ 'go to the matrix for the second square p2 +y(30)/1
+ Go P2 +Z(25) +Y(30) /1
+ Go P2 +Y(30) /1
+  Wait (0.5)
+ Off 11
+ Go P2 +Z(25) +Y(30) /1
+
+' punto seguro despues de acercarse  al matrix p11 /1
+Go P11 /1
+
+
+
+
+' Last square p5
+
+Go P5 +Z(20)
+Go P5
+On 11
+Go P5 +Z(20)
+
+
+
+'  alignment point p3
+Go P3 +Z(30) -X(5)
+Go P3 -X(10)
+Off 11
+Go P3 +Z(30) -X(10)
+On 10 'impulsor 
+Wait (0.5)
+Off 10
+Wait (0.5)
+Go P3 +Z(30)
+Go P3
+On 11
+Go P3 +Z(30) -X(5)
+
+
+
+
+' punto seguro antes de acercarce al matrix p11 
+Go P11
+
+  'go to the matrix Last square p2 +y(60)/1
+ Go P2 +Z(25) +Y(60) /1
+ Go P2 +Y(60) /1
+ Off 11
+  Wait (0.5)
+ Go P2 +Z(25) +Y(60) /1
+ 
+ ' punto seguro despues de acercarse  al matrix p11 /1
+Go P11 /1
+
+
+
+
+' Firs Circule P1
+
+Go P1 +Z(20)
+Go P1
+On 11
+Go P1 +Z(20)
+
+'  alignment point p3
+Go P3 +Z(30) -X(5)
+Go P3 -X(10)
+Off 11
+Go P3 +Z(30) -X(10)
+On 10 'impulsor 
+Wait (0.5)
+Off 10
+Wait (0.5)
+Go P3 +Z(30)
+Go P3
+On 11
+Go P3 +Z(30) -X(5)
+
+
+
+' punto seguro antes de acercarce al matrix p11 /1
+Go P11 /1
+
+
+ 'go to the matrix First circle p2 +x(30)/1
+ Go P2 +Z(25) +X(30) /1
+ Go P2 +X(30) /1
+ Off 11
+  Wait (0.5)
+ Go P2 +Z(25) +X(30) /1
+ 
+ ' punto seguro despues de acercarse  al matrix p11 /1
+Go P11 /1
+
+
+
+
+' Second Circule P6
+Go P6 +Z(20)
+Go P6
+On 11
+Go P6 +Z(20)
+
+
+'  alignment point p3
+Go P3 +Z(30) -X(5)
+Go P3 -X(10)
+Off 11
+Go P3 +Z(30) -X(10)
+On 10 'impulsor 
+Wait (0.5)
+Off 10
+Wait (0.5)
+Go P3 +Z(30)
+Go P3
+On 11
+Go P3 +Z(30) -X(5)
+
+
+
+
+
+' punto seguro antes de acercarce al matrix p11 /1
+Go P11 /1
+
+ 
+  'go to the matrix Second Circle p2 +x(30)+y(30)/1
+ Go P2 +Z(25) +X(30) +Y(30) /1
+ Go P2 +X(30) +Y(30) /1
+ Off 11
+   Wait (0.5)
+ Go P2 +Z(25) +X(30) +Y(30) /1
+ 
+' punto seguro despues de acercarse  al matrix p11 /1
+Go P11 /1
+
+
+' Last Circule P7
+Go P7 +Z(20)
+Go P7
+On 11
+Go P7 +Z(20)
+
+'  alignment point p3
+Go P3 +Z(30) -X(5)
+Go P3 -X(10)
+Off 11
+Go P3 +Z(30) -X(10)
+On 10 'impulsor 
+Wait (0.5)
+Off 10
+Wait (0.5)
+Go P3 +Z(30)
+Go P3
+On 11
+Go P3 +Z(30) -X(5)
+
+
+
+' punto seguro antes de acercarce al matrix p11 /1
+Go P11 /1
+ 
+
+'go to the matrix p2 +x(30)+y(60)/1
+ Go P2 +Z(25) +X(30) +Y(60) /1
+ Go P2 +X(30) +Y(60) /1
+ Off 11
+ Wait (0.5)
+ Go P2 +Z(25) +X(30) +Y(60) /1
+ 
+ ' punto seguro despues de acercarse  al matrix p11 /1
+Go P11 /1
+Go P10
+
+
+ Fend
+
+
 
